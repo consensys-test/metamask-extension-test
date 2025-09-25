@@ -9,10 +9,7 @@ import {
   WebHIDConnectedStatuses,
 } from '../../../shared/constants/hardware-wallets';
 import * as actionConstants from '../../store/actionConstants';
-import {
-  PasswordChangeToastType,
-  NetworkConnectionBanner,
-} from '../../../shared/constants/app-state';
+import { PasswordChangeToastType } from '../../../shared/constants/app-state';
 
 type AppState = {
   customNonceValue: string;
