@@ -65,12 +65,14 @@ import { AccountGroupId, AccountWalletId } from '@metamask/account-api';
 import { SerializedUR } from '@metamask/eth-qr-keyring';
 import {
   BillingPortalResponse,
+  ChainPaymentInfo,
   GetCryptoApproveTransactionRequest,
   PaymentType,
   PricingResponse,
   ProductType,
   RecurringInterval,
   Subscription,
+  TokenPaymentInfo,
 } from '@metamask/subscription-controller';
 import { captureException } from '../../shared/lib/sentry';
 import { switchDirection } from '../../shared/lib/switch-direction';
@@ -398,6 +400,31 @@ export function startSubscriptionWithCard(params: {
     );
 
     return subscriptions;
+  };
+}
+/**
+ * Starts a subscription with crypto.
+ *
+ * @param params - The parameters.
+ * @param params.tokenPaymentInfo - The token payment info.
+ * @param params.chainPaymentInfo - The chain payment info.
+ * @param params.isTrialRequested - Is trial requested.
+ * @param params.recurringInterval - The recurring interval.
+ * @param params.billingCycles - The billing cycles.
+ * @returns The subscription response.
+ */
+export function startSubscriptionWithCrypto(params: {
+  tokenPaymentInfo: TokenPaymentInfo;
+  chainPaymentInfo: ChainPaymentInfo;
+  isTrialRequested: boolean;
+  recurringInterval: RecurringInterval;
+  billingCycles: number;
+}): ThunkAction<Subscription[], MetaMaskReduxState, unknown, AnyAction> {
+  return async (_dispatch: MetaMaskReduxDispatch) => {
+    await submitRequestToBackground<Subscription[]>(
+      'startSubscriptionWithCrypto',
+      [params],
+    );
   };
 }
 

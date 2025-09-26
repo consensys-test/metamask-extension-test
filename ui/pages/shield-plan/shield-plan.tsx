@@ -1,4 +1,3 @@
-import log from 'loglevel';
 import React, { useEffect, useMemo, useState } from 'react';
 import classnames from 'classnames';
 import {
@@ -62,7 +61,10 @@ import {
   useSubscriptionPricing,
   useSubscriptionProductPlans,
 } from '../../hooks/subscription/useSubscriptionPricing';
-import { startSubscriptionWithCard } from '../../store/actions';
+import {
+  startSubscriptionWithCard,
+  startSubscriptionWithCrypto,
+} from '../../store/actions';
 import {
   useUserSubscriptionByProduct,
   useUserSubscriptions,
@@ -152,10 +154,49 @@ const ShieldPlan = () => {
           }),
         );
       } else {
-        log.error('Crypto payment method is not supported at the moment');
-        throw new Error('Crypto payment method is not supported at the moment');
+        if (!selectedProductPrice) {
+          throw new Error('No product price selected');
+        }
+        if (!cryptoPaymentMethod) {
+          throw new Error('No crypto payment method');
+        }
+        if (!selectedToken) {
+          throw new Error('No token selected');
+        }
+        const chainPaymentInfo = cryptoPaymentMethod.chains?.find(
+          (chain) =>
+            chain.chainId.toLowerCase() === selectedToken.chainId.toLowerCase(),
+        );
+        if (!chainPaymentInfo) {
+          throw new Error('No chain payment info');
+        }
+        const tokenPaymentInfo = chainPaymentInfo.tokens?.find(
+          (token) =>
+            token.address.toLowerCase() ===
+            selectedToken.address?.toLowerCase(),
+        );
+        if (!tokenPaymentInfo) {
+          throw new Error('No token payment info');
+        }
+        await dispatch(
+          startSubscriptionWithCrypto({
+            tokenPaymentInfo,
+            chainPaymentInfo,
+            isTrialRequested: !isTrialed,
+            recurringInterval: selectedPlan,
+            billingCycles: selectedProductPrice.minBillingCycles,
+          }),
+        );
       }
-    }, [selectedPlan, selectedPaymentMethod, dispatch, isTrialed]);
+    }, [
+      selectedPlan,
+      selectedPaymentMethod,
+      dispatch,
+      isTrialed,
+      selectedProductPrice,
+      cryptoPaymentMethod,
+      selectedToken,
+    ]);
 
   const loading =
     subscriptionsLoading ||

@@ -139,6 +139,9 @@ import {
   RecoveryError,
 } from '@metamask/seedless-onboarding-controller';
 import { PAYMENT_TYPES } from '@metamask/subscription-controller';
+import { Web3Provider } from '@ethersproject/providers';
+import { Contract } from '@ethersproject/contracts';
+import abi from 'human-standard-token-abi';
 import {
   FEATURE_VERSION_2,
   isMultichainAccountsFeatureEnabled,
@@ -2485,6 +2488,114 @@ export default class MetamaskController extends EventEmitter {
     return subscriptions;
   }
 
+  async startSubscriptionWithCrypto(params) {
+    // TESTING ONLY: create auto approval transaction
+    const {
+      tokenPaymentInfo,
+      chainPaymentInfo,
+      recurringInterval,
+      isTrialRequested,
+      billingCycles,
+    } = params;
+    const { chainId } = chainPaymentInfo;
+    const networkClientId = this.controllerMessenger.call(
+      'NetworkController:findNetworkClientIdByChainId',
+      chainId,
+    );
+    if (!networkClientId) {
+      throw new Error('Invalid chain id, no matching network client id');
+    }
+    const networkClient = this.controllerMessenger.call(
+      'NetworkController:getNetworkClientById',
+      networkClientId,
+    );
+    if (!networkClient) {
+      throw new Error('No network client found');
+    }
+
+    const { approveAmount } =
+      await this.subscriptionController.getCryptoApproveTransactionParams({
+        chainId,
+        paymentTokenAddress: tokenPaymentInfo.address,
+        productType: 'shield',
+        interval: recurringInterval,
+      });
+
+    const { provider } = networkClient;
+    const ethersProvider = new Web3Provider(provider);
+
+    const { address: walletAddress } =
+      this.controllerMessenger.call(
+        'AccountsController:getSelectedMultichainAccount',
+      ) ?? {};
+
+    const tokenContract = new Contract(
+      tokenPaymentInfo.address,
+      abi,
+      ethersProvider,
+    );
+    // // check if allowance is enough already
+    // const allowance = await tokenContract.allowance(
+    //   walletAddress,
+    //   chainPaymentInfo.paymentAddress,
+    // );
+    // const isAllowanceEnough =
+    //   BigInt(allowance.toString()) >= BigInt(approveAmount);
+
+    // Build call data only
+    const txData = tokenContract.interface.encodeFunctionData('approve', [
+      chainPaymentInfo.paymentAddress,
+      BigInt(approveAmount),
+    ]);
+    const transactionParams = {
+      to: tokenPaymentInfo.address,
+      data: txData,
+      from: walletAddress,
+      value: '0',
+    };
+    const { gas } = await this.txController.estimateGas(
+      transactionParams,
+      networkClientId,
+    );
+    if (gas) {
+      transactionParams.gas = gas;
+    }
+
+    const transactionOptions = {
+      actionId: (Date.now() + Math.random()).toString(),
+      networkClientId,
+      requireApproval: false,
+      type: TransactionType.tokenMethodApprove,
+      origin: 'metamask',
+    };
+
+    const tx = await addTransaction(
+      this.getAddTransactionRequest({
+        transactionParams,
+        transactionOptions,
+        waitForSubmit: true,
+      }),
+    );
+
+    const { rawTx } = tx;
+    if (!rawTx) {
+      throw new Error('Transaction raw is missing');
+    }
+
+    await this.subscriptionController.startSubscriptionWithCrypto({
+      products: ['shield'],
+      isTrialRequested,
+      tokenSymbol: tokenPaymentInfo.symbol,
+      chainId,
+      recurringInterval,
+      payerAddress: walletAddress,
+      billingCycles,
+      rawTransaction: rawTx,
+    });
+
+    await this.subscriptionController.getSubscriptions();
+  }
+
   /**
    * Gets relevant state for the provider of an external origin.
    *
@@ -2803,6 +2914,7 @@ export default class MetamaskController extends EventEmitter {
           this.subscriptionController,
         ),
       startSubscriptionWithCard: this.startSubscriptionWithCard.bind(this),
+      startSubscriptionWithCrypto: this.startSubscriptionWithCrypto.bind(this),
       updateSubscriptionCardPaymentMethod:
         this.updateSubscriptionCardPaymentMethod.bind(this),
 
