@@ -4002,9 +4002,6 @@
   "noTokensMatchingYourFilters": {
     "message": "No tokens matching your filters"
   },
-  "noTransactions": {
-    "message": "You have no transactions"
-  },
   "noWebcamFound": {
     "message": "Your computer's webcam was not found. Please try again."
   },
@@ -5057,6 +5054,9 @@
   "recipientEditAriaLabel": {
     "message": "Edit recipient"
   },
+  "recipientPlaceholder": {
+    "message": "Enter or paste a valid address"
+  },
   "recommendedGasLabel": {
     "message": "Recommended"
   },
@@ -5766,10 +5766,6 @@
   "shieldTxMembershipErrorAddFunds": {
     "message": "Add funds"
   },
-  "shieldTxMembershipErrorEnding": {
-    "message": "Your membership is ending on $1. Keep benefits active by renewing.",
-    "description": "The $1 is the date"
-  },
   "shieldTxMembershipErrorInsufficientFunds": {
     "message": "Insufficient funds for your April 18 renewal. Keep access active by adding funds.",
     "description": "The $1 is the date"
@@ -5786,9 +5782,6 @@
   },
   "shieldTxMembershipErrorPausedCryptoTooltip": {
     "message": "Insufficient token balance in your wallet. Top up to resume coverage."
-  },
-  "shieldTxMembershipErrorRenew": {
-    "message": "Renew membership"
   },
   "shieldTxMembershipErrorUpdateCard": {
     "message": "Update card details"
