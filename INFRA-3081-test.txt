@@ -1,2 +1,3 @@
 Test file for validating INFRA-3081 Point 2:
 Commits without PR numbers should be filtered out from changelog
+Feature from PR
