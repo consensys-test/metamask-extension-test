@@ -2,3 +2,4 @@ Test file for validating INFRA-3081 Point 2:
 Commits without PR numbers should be filtered out from changelog
 Feature: Notification system
 Direct commit 1
+Direct commit 2
