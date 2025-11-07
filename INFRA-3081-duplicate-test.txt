@@ -5,3 +5,4 @@ This tests that:
 2. Direct commits are NOT duplicated on subsequent runs
 3. PR-based commits work as before
 Direct commit 1
+Direct commit 2
