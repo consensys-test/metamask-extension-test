@@ -1,0 +1,6 @@
+Test file for validating INFRA-3081 PR #254: Duplicate Detection
+
+This tests that:
+1. Direct commits ARE included in the changelog
+2. Direct commits are NOT duplicated on subsequent runs
+3. PR-based commits work as before
