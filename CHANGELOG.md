@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [200.0.0]
+
+### Uncategorized
+
+- docs: Update README with setup instructions
+- chore: Update Attributions
+
+### Added
+
+- feat: Add dashboard analytics
+- feat: Implement two-factor authentication (#9)
+
+### Fixed
+
+- fix: Use correct baseline v199.0.0 in workflow
+- fix: Correct workflow baseline to v199.0.0
+- fix: Add allow-scripts configuration for CI
+- fix: Add allow-scripts config for new dependencies
+
 ## [13.7.0]
 
 ### Added
@@ -1009,30 +1028,31 @@ authorized by the user.` error until the user fully revoked dapp
 - This changelog was split off with 12.22.0
 - All older changes can be found in [docs/CHANGELOG_older.md](https://github.com/MetaMask/metamask-extension/blob/main/docs/CHANGELOG_older.md)
 
-[Unreleased]: https://github.com/MetaMask/metamask-extension/compare/v13.7.0...HEAD
-[13.7.0]: https://github.com/MetaMask/metamask-extension/compare/v13.6.0...v13.7.0
-[13.6.0]: https://github.com/MetaMask/metamask-extension/compare/v13.5.0...v13.6.0
-[13.5.0]: https://github.com/MetaMask/metamask-extension/compare/v13.4.3...v13.5.0
-[13.4.3]: https://github.com/MetaMask/metamask-extension/compare/v13.4.2...v13.4.3
-[13.4.2]: https://github.com/MetaMask/metamask-extension/compare/v13.4.1...v13.4.2
-[13.4.1]: https://github.com/MetaMask/metamask-extension/compare/v13.4.0...v13.4.1
-[13.4.0]: https://github.com/MetaMask/metamask-extension/compare/v13.3.2...v13.4.0
-[13.3.2]: https://github.com/MetaMask/metamask-extension/compare/v13.3.1...v13.3.2
-[13.3.1]: https://github.com/MetaMask/metamask-extension/compare/v13.3.0...v13.3.1
-[13.3.0]: https://github.com/MetaMask/metamask-extension/compare/v13.2.3...v13.3.0
-[13.2.3]: https://github.com/MetaMask/metamask-extension/compare/v13.2.2...v13.2.3
-[13.2.2]: https://github.com/MetaMask/metamask-extension/compare/v13.2.1...v13.2.2
-[13.2.1]: https://github.com/MetaMask/metamask-extension/compare/v13.2.0...v13.2.1
-[13.2.0]: https://github.com/MetaMask/metamask-extension/compare/v13.1.2...v13.2.0
-[13.1.2]: https://github.com/MetaMask/metamask-extension/compare/v13.1.1...v13.1.2
-[13.1.1]: https://github.com/MetaMask/metamask-extension/compare/v13.1.0...v13.1.1
-[13.1.0]: https://github.com/MetaMask/metamask-extension/compare/v13.0.1...v13.1.0
-[13.0.1]: https://github.com/MetaMask/metamask-extension/compare/v13.0.0...v13.0.1
-[13.0.0]: https://github.com/MetaMask/metamask-extension/compare/v12.23.1...v13.0.0
-[12.23.1]: https://github.com/MetaMask/metamask-extension/compare/v12.23.0...v12.23.1
-[12.23.0]: https://github.com/MetaMask/metamask-extension/compare/v12.22.3...v12.23.0
-[12.22.3]: https://github.com/MetaMask/metamask-extension/compare/v12.22.2...v12.22.3
-[12.22.2]: https://github.com/MetaMask/metamask-extension/compare/v12.22.1...v12.22.2
-[12.22.1]: https://github.com/MetaMask/metamask-extension/compare/v12.22.0...v12.22.1
-[12.22.0]: https://github.com/MetaMask/metamask-extension/compare/v12.20.1...v12.22.0
-[12.20.1]: https://github.com/MetaMask/metamask-extension/releases/tag/v12.20.1
+[Unreleased]: https://github.com/consensys-test/metamask-extension-test/compare/v200.0.0...HEAD
+[200.0.0]: https://github.com/consensys-test/metamask-extension-test/compare/v13.7.0...v200.0.0
+[13.7.0]: https://github.com/consensys-test/metamask-extension-test/compare/v13.6.0...v13.7.0
+[13.6.0]: https://github.com/consensys-test/metamask-extension-test/compare/v13.5.0...v13.6.0
+[13.5.0]: https://github.com/consensys-test/metamask-extension-test/compare/v13.4.3...v13.5.0
+[13.4.3]: https://github.com/consensys-test/metamask-extension-test/compare/v13.4.2...v13.4.3
+[13.4.2]: https://github.com/consensys-test/metamask-extension-test/compare/v13.4.1...v13.4.2
+[13.4.1]: https://github.com/consensys-test/metamask-extension-test/compare/v13.4.0...v13.4.1
+[13.4.0]: https://github.com/consensys-test/metamask-extension-test/compare/v13.3.2...v13.4.0
+[13.3.2]: https://github.com/consensys-test/metamask-extension-test/compare/v13.3.1...v13.3.2
+[13.3.1]: https://github.com/consensys-test/metamask-extension-test/compare/v13.3.0...v13.3.1
+[13.3.0]: https://github.com/consensys-test/metamask-extension-test/compare/v13.2.3...v13.3.0
+[13.2.3]: https://github.com/consensys-test/metamask-extension-test/compare/v13.2.2...v13.2.3
+[13.2.2]: https://github.com/consensys-test/metamask-extension-test/compare/v13.2.1...v13.2.2
+[13.2.1]: https://github.com/consensys-test/metamask-extension-test/compare/v13.2.0...v13.2.1
+[13.2.0]: https://github.com/consensys-test/metamask-extension-test/compare/v13.1.2...v13.2.0
+[13.1.2]: https://github.com/consensys-test/metamask-extension-test/compare/v13.1.1...v13.1.2
+[13.1.1]: https://github.com/consensys-test/metamask-extension-test/compare/v13.1.0...v13.1.1
+[13.1.0]: https://github.com/consensys-test/metamask-extension-test/compare/v13.0.1...v13.1.0
+[13.0.1]: https://github.com/consensys-test/metamask-extension-test/compare/v13.0.0...v13.0.1
+[13.0.0]: https://github.com/consensys-test/metamask-extension-test/compare/v12.23.1...v13.0.0
+[12.23.1]: https://github.com/consensys-test/metamask-extension-test/compare/v12.23.0...v12.23.1
+[12.23.0]: https://github.com/consensys-test/metamask-extension-test/compare/v12.22.3...v12.23.0
+[12.22.3]: https://github.com/consensys-test/metamask-extension-test/compare/v12.22.2...v12.22.3
+[12.22.2]: https://github.com/consensys-test/metamask-extension-test/compare/v12.22.1...v12.22.2
+[12.22.1]: https://github.com/consensys-test/metamask-extension-test/compare/v12.22.0...v12.22.1
+[12.22.0]: https://github.com/consensys-test/metamask-extension-test/compare/v12.20.1...v12.22.0
+[12.20.1]: https://github.com/consensys-test/metamask-extension-test/releases/tag/v12.20.1
