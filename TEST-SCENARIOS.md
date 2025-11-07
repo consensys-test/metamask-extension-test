@@ -10,3 +10,4 @@
 ## Commit Hash Tested
 4e7a9cbc95af966638b9ba1e51e92b8a0927bb4d
 Scenario 1: Squash Merge
+Scenario 2: Regular Merge
