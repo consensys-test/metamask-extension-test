@@ -12,3 +12,4 @@
 Scenario 1: Squash Merge
 Scenario 2: Regular Merge
 Direct commit 1
+Direct commit 2
