@@ -1,1 +1,2 @@
 Test for PR #254: Duplicate detection with whitespace normalization
+PR feature
