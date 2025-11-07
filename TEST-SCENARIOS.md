@@ -14,3 +14,4 @@ Scenario 2: Regular Merge
 Direct commit 1
 Direct commit 2
 Direct commit 3
+Whitespace test
