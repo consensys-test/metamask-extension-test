@@ -8,3 +8,4 @@ Testing scenarios:
 5. Whitespace handling - commits with extra spaces should be normalized
 Scenario 1
 Scenario 2
+Direct 1
