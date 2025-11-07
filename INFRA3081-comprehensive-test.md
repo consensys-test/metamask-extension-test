@@ -7,3 +7,4 @@ Testing scenarios:
 4. Idempotency - re-running should not add duplicates
 5. Whitespace handling - commits with extra spaces should be normalized
 Scenario 1
+Scenario 2
