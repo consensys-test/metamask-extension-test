@@ -51,6 +51,6 @@ jobs:
       repository-url: ${{ github.server_url }}/${{ github.repository }}
       platform: extension
       github-tools-version: chore/test-auto-changelog
-      previous-version-ref: v98.0.0
+      previous-version-ref: v100.0.0
     secrets:
       github-token: ${{ secrets.GITHUB_TOKEN }}
