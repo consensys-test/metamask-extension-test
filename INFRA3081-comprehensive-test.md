@@ -6,3 +6,4 @@ Testing scenarios:
 3. Direct commits - should be included and deduplicated
 4. Idempotency - re-running should not add duplicates
 5. Whitespace handling - commits with extra spaces should be normalized
+Scenario 1
