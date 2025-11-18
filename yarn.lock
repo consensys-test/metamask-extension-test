@@ -5655,7 +5655,7 @@ __metadata:
 
 "@metamask/auto-changelog@MetaMask/auto-changelog#fix/INFRA-3081-duplicate-detection":
   version: 5.1.0
-  resolution: "@metamask/auto-changelog@https://github.com/MetaMask/auto-changelog.git#commit=1a349c49ebd8e7bc6579714c0b2165bb09895833"
+  resolution: "@metamask/auto-changelog@https://github.com/MetaMask/auto-changelog.git#commit=HEAD"
   dependencies:
     "@octokit/rest": "npm:^20.0.0"
     diff: "npm:^5.0.0"
@@ -5666,7 +5666,6 @@ __metadata:
     prettier: ">=3.0.0"
   bin:
     auto-changelog: dist/cli.mjs
-  checksum: 10/52f13fc9811c020e8e3652149afeebbdca4b86a15776884d64bdd4511edbcdc9fed60b52b7cd188de6c574ba8a2b471074b907c939e3153ac0e26f736495a453
   languageName: node
   linkType: hard
 
