@@ -5666,6 +5666,7 @@ __metadata:
     prettier: ">=3.0.0"
   bin:
     auto-changelog: dist/cli.mjs
+  checksum: 10/52f13fc9811c020e8e3652149afeebbdca4b86a15776884d64bdd4511edbcdc9fed60b52b7cd188de6c574ba8a2b471074b907c939e3153ac0e26f736495a453
   languageName: node
   linkType: hard
 
