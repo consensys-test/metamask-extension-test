@@ -13,9 +13,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - docs: update installation notes for 13.9.0 release
 - chore: prep release checklist for 13.9.0
+- docs: update installation notes for 13.9.0 release
+- chore: prep release checklist for 13.9.0
 
 ### Added
 
+- feat: enable dashboard quick filters for 13.9.0
 - feat: enable dashboard quick filters for 13.9.0
 
 ## [13.7.0]
