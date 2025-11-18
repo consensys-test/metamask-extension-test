@@ -5655,7 +5655,7 @@ __metadata:
 
 "@metamask/auto-changelog@MetaMask/auto-changelog#fix/INFRA-3081-duplicate-detection":
   version: 5.1.0
-  resolution: "@metamask/auto-changelog@https://github.com/MetaMask/auto-changelog.git#commit=HEAD"
+  resolution: "@metamask/auto-changelog@https://github.com/MetaMask/auto-changelog.git#commit=fix/INFRA-3081-duplicate-detection"
   dependencies:
     "@octokit/rest": "npm:^20.0.0"
     diff: "npm:^5.0.0"
