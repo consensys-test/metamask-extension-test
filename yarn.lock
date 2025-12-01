@@ -5653,9 +5653,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@metamask/auto-changelog@MetaMask/auto-changelog#fix/INFRA-3081-filter-commits":
-  version: 5.1.0
-  resolution: "@metamask/auto-changelog@https://github.com/MetaMask/auto-changelog.git#commit=0cafdbb4fbcfc5c7b1bce53e6cb1317e700b1a94"
+"@metamask/auto-changelog@MetaMask/auto-changelog#feat/require-pr-numbers":
+  version: 5.2.0
+  resolution: "@metamask/auto-changelog@https://github.com/MetaMask/auto-changelog.git#commit=c24bbf701477c52b8f3f7ac9a2fa10474ea14ea6"
   dependencies:
     "@octokit/rest": "npm:^20.0.0"
     diff: "npm:^5.0.0"
@@ -5666,7 +5666,7 @@ __metadata:
     prettier: ">=3.0.0"
   bin:
     auto-changelog: dist/cli.mjs
-  checksum: 10/b1468c6d723ee608fa6c8ba7bb4e69bed51da34348c00240a47f2b7d8da90dbbe3ade8557d3bb106c23abb544746b6e1c80bcafcd7d1e58ed86fcd2a63b10e54
+  checksum: 10/6e0e3f9c5e899f0f73bd11eecf811b3d86d7206961914ca88a6eabee08323635b42e378ec8a5a7c02d133ee164c0cd91cb042f880dc0f99a03f79200b7270242
   languageName: node
   linkType: hard
 
@@ -31991,7 +31991,7 @@ __metadata:
     "@metamask/api-specs": "npm:^0.13.0"
     "@metamask/approval-controller": "npm:^8.0.0"
     "@metamask/assets-controllers": "npm:^87.0.0"
-    "@metamask/auto-changelog": "MetaMask/auto-changelog#fix/INFRA-3081-filter-commits"
+    "@metamask/auto-changelog": "MetaMask/auto-changelog#feat/require-pr-numbers"
     "@metamask/base-controller": "npm:^9.0.0"
     "@metamask/bitcoin-wallet-snap": "npm:^1.4.4"
     "@metamask/bridge-controller": "npm:^56.0.3"
