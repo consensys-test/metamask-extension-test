@@ -56,3 +56,4 @@ jobs:
           previous-version-ref: 'null'
           github-tools-version: test/auto-changelog-flag
           github-token: ${{ secrets.GITHUB_TOKEN }}
+# Trigger workflow with auto-changelog build fix 1764604995
