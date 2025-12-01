@@ -56,3 +56,4 @@ jobs:
           previous-version-ref: 'null'
           github-tools-version: test/auto-changelog-require-pr-numbers
           github-token: ${{ secrets.GITHUB_TOKEN }}
+# Test trigger for auto-changelog PR #253
