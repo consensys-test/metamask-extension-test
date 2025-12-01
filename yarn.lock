@@ -5878,7 +5878,7 @@ __metadata:
 
 "@metamask/auto-changelog@MetaMask/auto-changelog#feat/require-pr-numbers":
   version: 5.2.0
-  resolution: "@metamask/auto-changelog@https://github.com/MetaMask/auto-changelog.git#commit=5bf51ecabd21584c96dd8529f5d372e7c738ce5c"
+  resolution: "@metamask/auto-changelog@https://github.com/MetaMask/auto-changelog.git#commit=e850ad67bcfeb765d4443e2d195b6439e9b5a0e2"
   dependencies:
     "@octokit/rest": "npm:^20.0.0"
     diff: "npm:^5.0.0"
