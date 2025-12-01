@@ -55,4 +55,4 @@ jobs:
           platform: extension
           previous-version-ref: 'null'
           github-tools-version: v1.1.0
-          github-token: ${{ secrets.PR_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
