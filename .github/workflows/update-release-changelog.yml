@@ -48,7 +48,7 @@ jobs:
       pull-requests: write
     steps:
       - name: Update Release Changelog
-        uses: MetaMask/github-tools/.github/actions/update-release-changelog@v1.1.0
+        uses: MetaMask/github-tools/.github/actions/update-release-changelog@test/auto-changelog-flag
         with:
           release-branch: ${{ github.ref_name }}
           repository-url: ${{ github.server_url }}/${{ github.repository }}
