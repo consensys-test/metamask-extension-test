@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Uncategorized
 
+- chore: trigger workflow to test merge fix (#36)
 - Increase background connection unresponsive timeout (#38322)
 - Adds event tracing for hide token. (#38358)
 - Advanced permissions are now ordered by startTime. (#37858)
@@ -26,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- feat: test commit with PR for 800.0.0 (#36)
 - Design upgrades for Confirmations (#38399)
 - Fix amount component to be only accept numeric inputs (#38235)
 - Update shield coverage alert icon (#38343)
