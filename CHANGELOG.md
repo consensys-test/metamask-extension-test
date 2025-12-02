@@ -87,7 +87,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Show correct balance values in fiat for gas tokens (#38249)
 - Added ability to view Gator permissions filtered by specific site origin (#37736)
 - Fixed the Lattice hardware wallet flow to reuse cached credentials instead of asking users to reconnect every time. (#37781)
-- fix: Revert "refactor: extract confirmation handler (#38189)" (#38189)
+- fix: Revert "refactor: extract confirmation handler" (#38189)
 - fix: update shield claim find txn link (#37999)
 - Custom swap slippage validation allows invalid inputs (#38066)
 - Changed minimum received amount to be the token amount. (#38150)
