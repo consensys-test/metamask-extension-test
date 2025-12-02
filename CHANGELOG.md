@@ -7,6 +7,107 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [900.0.0]
+
+### Uncategorized
+
+- Increase background connection unresponsive timeout (#38322)
+- Adds event tracing for hide token. (#38358)
+- Advanced permissions are now ordered by startTime. (#37858)
+- chore: update transaction shield claims guide url (#38225)
+- Sync v13.11.0 with stable (#38303)
+- N/A (#37810)
+- None - dependency bump (#37902)
+- Include client version and platform version in `snap_getClientStatus` response. (#37582)
+- Upgrade @metamask/gator-permissions-snap from `^0.5.0` to `^0.6.0` (#37562)
+- Improves metrics generation, by including more information about the
+  permissions being granted
+  (https://github.com/MetaMask/snap-7715-permissions/pull/218)
+
+### Added
+
+- feat: test commit with PR for 900.0.0 (#37)
+- Design upgrades for Confirmations (#38399)
+- Fix amount component to be only accept numeric inputs (#38235)
+- Update shield coverage alert icon (#38343)
+- Support gasless crosschain swaps with STX and eth_sendBundle (#38325)
+- feat: added metrics for pna25 banner (#38403)
+- Improve network logo and enable native token logo for Cronos (chain ID 25). (#38311)
+- Extend metrics with `transaction_hash` if it's opted in (#38181)
+- Introduces metametrics banner (#38112)
+- Added the edge case of insufficient balance quotes for gas fees sponsored swap (#38353)
+- Confirmations for sidepanel (#38375)
+- Add subscription retry button to notify server check when user balance is sufficient (#36847)
+- Align shield illustration to bottom in popup mode (#38340)
+- Default to BIP-44 UI for account & wallet details (#37984)
+- Shield plan save last payment detail everytime user select token (#38314)
+- Truncated site name (#38033)
+- Updated text and alignment on shield coverage alert modal (#38286)
+- Adds UI for handling for api errors on shield plan page (#38090)
+- Removed legacy funding card components in preparation for improved empty state experience (#37290)
+- Enforces dark mode on the active membership banner (#38204)
+- Adds theme-based toggling of the Rive shield icon’s Dark state to switch colors for light/dark modes. (#38223)
+- Integrated balance empty state for zero-balance accounts on mainnet networks (#37196)
+- Shows a site if it has no connection but has permissions granted to it. (#36811)
+- feat: moving quote fetch logic to middleware (#37956)
+- feat: Implement rewards text into dapp swap comparison banner (#37933)
+- feat: adding more dapp swap metrics (#37888)
+- feat: Capturing failures in dapp swap metrics evaluation. (#37796)
+- feat: update localizations for Shield notifications (#37794)
+- feat: update shield claim translations (#37733)
+- N/A (#37728)
+- N/A (#37652)
+- feat: for quoted swap use data from quote to populate estimated changes (#37574)
+- feat: add translations for subscription notifications (#37624)
+- Add Predict deeplink handler (#37622)
+- feat: update swap transaction depending on user selection (#37528)
+
+### Fixed
+
+- When Network manager selection is Solana and a new popular network is added, the defi and NFTs tabs are missing (#38419)
+- Fix speed estimation to factor chain transacting on rather than selected network (#38342)
+- fix(security): Incomplete multi-character sanitization in GitHub Actions script (#36072)
+- Remove 0x0..dead address from blocker alerts (#38345)
+- Improved responsiveness of revoke button in Gator permissions by adding immediate UI feedback (#38184)
+- fix: test actions missing awaits (#38381)
+- Update recipient placeholder text in send (#38236)
+- Optimizes subscription polling (#38378)
+- Don't show shield coverage if basic functionality is off (#38351)
+- Fix forgot password when basic functionality is turned off (#38344)
+- Fix api error show in shield subscription start with card checkout tab close manually (#38308)
+- Fixed a bug where swapping from the Mon token page suggested ETH instead of MON when all Popular Networks were enabled. (#38349)
+  Added missing MONAD (143) and SEI (1329) chain IDs to the
+  bridge-controller to ensure correct chain resolution.
+- Fixed inconsistent MetaMask branding casing in locale files (#38332)
+- Fixed a bug where the tron icon was not showing in the activity list details modal (#38264)
+- Fixed balance empty state incorrectly showing when price conversion data is unavailable but tokens are present (#38284)
+- Add `signRewardsMessage` method ([#566](https://github.com/MetaMask/snap-bitcoin-wallet/pull/566)) (#38315)
+- Show correct balance values in fiat for gas tokens (#38249)
+- Added ability to view Gator permissions filtered by specific site origin (#37736)
+- Fixed the Lattice hardware wallet flow to reuse cached credentials instead of asking users to reconnect every time. (#37781)
+- fix: Revert "refactor: extract confirmation handler (#38189)" (#38189)
+- fix: update shield claim find txn link (#37999)
+- Custom swap slippage validation allows invalid inputs (#38066)
+- Changed minimum received amount to be the token amount. (#38150)
+- Removed the `isTestEnvironment` checks from all Rive animation–related files (#38110)
+- fix: dapp-swap comparison fiat rate fetching for native tokens (#38108)
+- Updated useTheme hook and logo for unlock page (#38002)
+- fix: Implement nonEVM zero balance check to send flow before `onAmountInput` (#38043)
+- fix: dapp swap gas value displayed (#37995)
+- fix: in UI implementation of dapp swap feature (#37926)
+- fix: shield claim submission error message (#37924)
+- fix: shield UI bugs (#37909)
+- fix: make min amount dynamic value in tooltip (#37905)
+- fix: backup/restore for batched swaps (#37868)
+- fix: update shield claim form errorCode & message (#37865)
+- fix: Revert `6286882567a0520732be6d70f5af264d839ec26c` (#37898)
+- fix: update Shield copy and error messages for consistency (#37869)
+- fix: UI issues in DAPP shield (#37784)
+- fix: rejecte swaps with multiple swap commands (#37771)
+- fix: swap decoding (#37673)
+- fix: metamask quote fee percentage value (#37650)
+- fix: show different message when cancelling paused subscriptions (#37655)
+
 ## [13.11.1]
 
 ### Fixed
@@ -1334,39 +1435,40 @@ authorized by the user.` error until the user fully revoked dapp
 - This changelog was split off with 12.22.0
 - All older changes can be found in [docs/CHANGELOG_older.md](https://github.com/MetaMask/metamask-extension/blob/main/docs/CHANGELOG_older.md)
 
-[Unreleased]: https://github.com/MetaMask/metamask-extension/compare/v13.11.1...HEAD
-[13.11.1]: https://github.com/MetaMask/metamask-extension/compare/v13.11.0...v13.11.1
-[13.11.0]: https://github.com/MetaMask/metamask-extension/compare/v13.10.4...v13.11.0
-[13.10.4]: https://github.com/MetaMask/metamask-extension/compare/v13.10.3...v13.10.4
-[13.10.3]: https://github.com/MetaMask/metamask-extension/compare/v13.10.2...v13.10.3
-[13.10.2]: https://github.com/MetaMask/metamask-extension/compare/v13.10.1...v13.10.2
-[13.10.1]: https://github.com/MetaMask/metamask-extension/compare/v13.10.0...v13.10.1
-[13.10.0]: https://github.com/MetaMask/metamask-extension/compare/v13.9.0...v13.10.0
-[13.9.0]: https://github.com/MetaMask/metamask-extension/compare/v13.8.0...v13.9.0
-[13.8.0]: https://github.com/MetaMask/metamask-extension/compare/v13.7.0...v13.8.0
-[13.7.0]: https://github.com/MetaMask/metamask-extension/compare/v13.6.0...v13.7.0
-[13.6.0]: https://github.com/MetaMask/metamask-extension/compare/v13.5.0...v13.6.0
-[13.5.0]: https://github.com/MetaMask/metamask-extension/compare/v13.4.3...v13.5.0
-[13.4.3]: https://github.com/MetaMask/metamask-extension/compare/v13.4.2...v13.4.3
-[13.4.2]: https://github.com/MetaMask/metamask-extension/compare/v13.4.1...v13.4.2
-[13.4.1]: https://github.com/MetaMask/metamask-extension/compare/v13.4.0...v13.4.1
-[13.4.0]: https://github.com/MetaMask/metamask-extension/compare/v13.3.2...v13.4.0
-[13.3.2]: https://github.com/MetaMask/metamask-extension/compare/v13.3.1...v13.3.2
-[13.3.1]: https://github.com/MetaMask/metamask-extension/compare/v13.3.0...v13.3.1
-[13.3.0]: https://github.com/MetaMask/metamask-extension/compare/v13.2.3...v13.3.0
-[13.2.3]: https://github.com/MetaMask/metamask-extension/compare/v13.2.2...v13.2.3
-[13.2.2]: https://github.com/MetaMask/metamask-extension/compare/v13.2.1...v13.2.2
-[13.2.1]: https://github.com/MetaMask/metamask-extension/compare/v13.2.0...v13.2.1
-[13.2.0]: https://github.com/MetaMask/metamask-extension/compare/v13.1.2...v13.2.0
-[13.1.2]: https://github.com/MetaMask/metamask-extension/compare/v13.1.1...v13.1.2
-[13.1.1]: https://github.com/MetaMask/metamask-extension/compare/v13.1.0...v13.1.1
-[13.1.0]: https://github.com/MetaMask/metamask-extension/compare/v13.0.1...v13.1.0
-[13.0.1]: https://github.com/MetaMask/metamask-extension/compare/v13.0.0...v13.0.1
-[13.0.0]: https://github.com/MetaMask/metamask-extension/compare/v12.23.1...v13.0.0
-[12.23.1]: https://github.com/MetaMask/metamask-extension/compare/v12.23.0...v12.23.1
-[12.23.0]: https://github.com/MetaMask/metamask-extension/compare/v12.22.3...v12.23.0
-[12.22.3]: https://github.com/MetaMask/metamask-extension/compare/v12.22.2...v12.22.3
-[12.22.2]: https://github.com/MetaMask/metamask-extension/compare/v12.22.1...v12.22.2
-[12.22.1]: https://github.com/MetaMask/metamask-extension/compare/v12.22.0...v12.22.1
-[12.22.0]: https://github.com/MetaMask/metamask-extension/compare/v12.20.1...v12.22.0
-[12.20.1]: https://github.com/MetaMask/metamask-extension/releases/tag/v12.20.1
+[Unreleased]: https://github.com/consensys-test/metamask-extension-test/compare/v900.0.0...HEAD
+[900.0.0]: https://github.com/consensys-test/metamask-extension-test/compare/v13.11.1...v900.0.0
+[13.11.1]: https://github.com/consensys-test/metamask-extension-test/compare/v13.11.0...v13.11.1
+[13.11.0]: https://github.com/consensys-test/metamask-extension-test/compare/v13.10.4...v13.11.0
+[13.10.4]: https://github.com/consensys-test/metamask-extension-test/compare/v13.10.3...v13.10.4
+[13.10.3]: https://github.com/consensys-test/metamask-extension-test/compare/v13.10.2...v13.10.3
+[13.10.2]: https://github.com/consensys-test/metamask-extension-test/compare/v13.10.1...v13.10.2
+[13.10.1]: https://github.com/consensys-test/metamask-extension-test/compare/v13.10.0...v13.10.1
+[13.10.0]: https://github.com/consensys-test/metamask-extension-test/compare/v13.9.0...v13.10.0
+[13.9.0]: https://github.com/consensys-test/metamask-extension-test/compare/v13.8.0...v13.9.0
+[13.8.0]: https://github.com/consensys-test/metamask-extension-test/compare/v13.7.0...v13.8.0
+[13.7.0]: https://github.com/consensys-test/metamask-extension-test/compare/v13.6.0...v13.7.0
+[13.6.0]: https://github.com/consensys-test/metamask-extension-test/compare/v13.5.0...v13.6.0
+[13.5.0]: https://github.com/consensys-test/metamask-extension-test/compare/v13.4.3...v13.5.0
+[13.4.3]: https://github.com/consensys-test/metamask-extension-test/compare/v13.4.2...v13.4.3
+[13.4.2]: https://github.com/consensys-test/metamask-extension-test/compare/v13.4.1...v13.4.2
+[13.4.1]: https://github.com/consensys-test/metamask-extension-test/compare/v13.4.0...v13.4.1
+[13.4.0]: https://github.com/consensys-test/metamask-extension-test/compare/v13.3.2...v13.4.0
+[13.3.2]: https://github.com/consensys-test/metamask-extension-test/compare/v13.3.1...v13.3.2
+[13.3.1]: https://github.com/consensys-test/metamask-extension-test/compare/v13.3.0...v13.3.1
+[13.3.0]: https://github.com/consensys-test/metamask-extension-test/compare/v13.2.3...v13.3.0
+[13.2.3]: https://github.com/consensys-test/metamask-extension-test/compare/v13.2.2...v13.2.3
+[13.2.2]: https://github.com/consensys-test/metamask-extension-test/compare/v13.2.1...v13.2.2
+[13.2.1]: https://github.com/consensys-test/metamask-extension-test/compare/v13.2.0...v13.2.1
+[13.2.0]: https://github.com/consensys-test/metamask-extension-test/compare/v13.1.2...v13.2.0
+[13.1.2]: https://github.com/consensys-test/metamask-extension-test/compare/v13.1.1...v13.1.2
+[13.1.1]: https://github.com/consensys-test/metamask-extension-test/compare/v13.1.0...v13.1.1
+[13.1.0]: https://github.com/consensys-test/metamask-extension-test/compare/v13.0.1...v13.1.0
+[13.0.1]: https://github.com/consensys-test/metamask-extension-test/compare/v13.0.0...v13.0.1
+[13.0.0]: https://github.com/consensys-test/metamask-extension-test/compare/v12.23.1...v13.0.0
+[12.23.1]: https://github.com/consensys-test/metamask-extension-test/compare/v12.23.0...v12.23.1
+[12.23.0]: https://github.com/consensys-test/metamask-extension-test/compare/v12.22.3...v12.23.0
+[12.22.3]: https://github.com/consensys-test/metamask-extension-test/compare/v12.22.2...v12.22.3
+[12.22.2]: https://github.com/consensys-test/metamask-extension-test/compare/v12.22.1...v12.22.2
+[12.22.1]: https://github.com/consensys-test/metamask-extension-test/compare/v12.22.0...v12.22.1
+[12.22.0]: https://github.com/consensys-test/metamask-extension-test/compare/v12.20.1...v12.22.0
+[12.20.1]: https://github.com/consensys-test/metamask-extension-test/releases/tag/v12.20.1
