@@ -5878,7 +5878,7 @@ __metadata:
 
 "@metamask/auto-changelog@MetaMask/auto-changelog#feat/require-pr-numbers":
   version: 5.2.0
-  resolution: "@metamask/auto-changelog@https://github.com/MetaMask/auto-changelog.git#commit=e850ad67bcfeb765d4443e2d195b6439e9b5a0e2"
+  resolution: "@metamask/auto-changelog@https://github.com/MetaMask/auto-changelog.git#commit=e82c4207ba6b32a870a32d377460569b989c5ac6"
   dependencies:
     "@octokit/rest": "npm:^20.0.0"
     diff: "npm:^5.0.0"
@@ -5889,7 +5889,7 @@ __metadata:
     prettier: ">=3.0.0"
   bin:
     auto-changelog: dist/cli.mjs
-  checksum: 10/1904123ce777fe1fcfb155fe2a7181ebc99edf47766cece60173b275fbaf7b0ef5edba8a6bfd2faa456bd04042e2db1668d0421d1f4f2d536ff9b8c1e42fb183
+  checksum: 10/1d2e6782265a0bca58884dc9e6bdbacb21416282ca135370a47de206c743cd20c94325b6cd9de2679fa17bf4c0362e1183f5054874c8cd691c7c56ba05f99591
   languageName: node
   linkType: hard
 
