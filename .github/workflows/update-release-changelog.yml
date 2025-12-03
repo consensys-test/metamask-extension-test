@@ -48,12 +48,11 @@ jobs:
       pull-requests: write
     steps:
       - name: Update Release Changelog
-        uses: MetaMask/github-tools/.github/actions/update-release-changelog@test/auto-changelog-flag
+        uses: MetaMask/github-tools/.github/actions/update-release-changelog@feat/auto-changelog-flag
         with:
           release-branch: ${{ github.ref_name }}
           repository-url: ${{ github.server_url }}/${{ github.repository }}
           platform: extension
           previous-version-ref: 'null'
-          github-tools-version: test/auto-changelog-flag
+          github-tools-version: feat/auto-changelog-flag
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          require-pr-numbers: 'true'
