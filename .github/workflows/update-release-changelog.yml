@@ -48,11 +48,11 @@ jobs:
       pull-requests: write
     steps:
       - name: Update Release Changelog
-        uses: MetaMask/github-tools/.github/actions/update-release-changelog@feat/auto-changelog-flag
+        uses: MetaMask/github-tools/.github/actions/update-release-changelog@fix/INFRA-3167-manage-no-diff
         with:
           release-branch: ${{ github.ref_name }}
           repository-url: ${{ github.server_url }}/${{ github.repository }}
           platform: extension
           previous-version-ref: 'null'
-          github-tools-version: feat/auto-changelog-flag
+          github-tools-version: fix/INFRA-3167-manage-no-diff
           github-token: ${{ secrets.GITHUB_TOKEN }}
