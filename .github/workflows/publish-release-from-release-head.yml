@@ -113,11 +113,11 @@ jobs:
             echo "Verified checks on SHA: \`${RELEASE_SHA}\`"
             echo ""
             echo "Required checks:"
-            echo "- `Run tests` - test suite gate"
+            echo '- `Run tests` - test suite gate'
             echo ""
             echo "Optional checks (allowed missing):"
-            echo "- `e2e-chrome` - E2E tests (Chrome)"
-            echo "- `e2e-firefox` - E2E tests (Firefox)"
+            echo '- `e2e-chrome` - E2E tests (Chrome)'
+            echo '- `e2e-firefox` - E2E tests (Firefox)'
           } >> "${GITHUB_STEP_SUMMARY}"
 
   # Production builds - 4 variants required for release
