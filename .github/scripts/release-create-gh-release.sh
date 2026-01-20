@@ -1,124 +1,138 @@
 #!/usr/bin/env bash
 
+# Creates release tags and GitHub Release in a single operation.
+# Both operations are idempotent - safe to retry on failure.
+#
+# Required environment variables:
+#   GITHUB_TOKEN - GitHub token for tag push and release creation
+#   GITHUB_REPOSITORY - Repository in format owner/repo
+#   RELEASE_TAG - Main release tag name (e.g., v12.5.0)
+#   RELEASE_SHA - Target SHA for the tag and release
+#
+# Optional environment variables:
+#   FLASK_TAG - Flask tag name (e.g., v12.5.0-flask.0), created if provided
+
 set -e
 set -o pipefail
 
 if [[ -z "${GITHUB_TOKEN}" ]]; then
-    echo "::error::GITHUB_TOKEN not provided. Set the 'GITHUB_TOKEN' environment variable."
+    echo "::error::GITHUB_TOKEN not provided."
     exit 1
 fi
 
 if [[ -z "${GITHUB_REPOSITORY}" ]]; then
-    echo "::error::GITHUB_REPOSITORY not provided. Set the 'GITHUB_REPOSITORY' environment variable."
+    echo "::error::GITHUB_REPOSITORY not provided."
     exit 1
 fi
 
-if [[ -z "${GITHUB_SHA}" && -z "${RELEASE_SHA}" ]]; then
-    echo "::error::GITHUB_SHA or RELEASE_SHA not provided. Set one of these environment variables."
+if [[ -z "${RELEASE_TAG}" ]]; then
+    echo "::error::RELEASE_TAG not provided."
     exit 1
 fi
 
-function print_build_version() {
-    local build_type="${1}"
-    shift
+if [[ -z "${RELEASE_SHA}" ]]; then
+    echo "::error::RELEASE_SHA not provided."
+    exit 1
+fi
 
-    local filename
-    filename="$(find "./build-${build_type}-browserify/builds" -type f -name "metamask-${build_type}-chrome-*.zip" -exec basename {} .zip \;)"
+# Normalize tag to include 'v' prefix
+tag=""
+if [[ "${RELEASE_TAG}" == v* ]]; then
+    tag="${RELEASE_TAG}"
+else
+    tag="v${RELEASE_TAG}"
+fi
 
-    local build_filename_prefix
-    build_filename_prefix="metamask-${build_type}-chrome-"
-    local build_filename_prefix_size
-    build_filename_prefix_size="${#build_filename_prefix}"
+VERSION="${tag#v}"
 
-    # Use substring parameter expansion to remove the filename prefix, leaving just the version
-    if [[ -z "${filename}" ]]; then
-        echo ""
-        return
-    fi
+echo "=== Release Creation ==="
+echo "Tag: ${tag}"
+echo "SHA: ${RELEASE_SHA}"
 
-    echo "${filename:${build_filename_prefix_size}}"
-}
+git config user.email "metamaskbot@users.noreply.github.com"
+git config user.name "MetaMask Bot"
 
-function publish_tag() {
-    local build_name="${1}"
-    shift
-    local build_version="${1}"
-    shift
-    local target_sha="${1}"
-    shift
-    local tag_name_override="${1:-}"
-    local tag_name=""
+# Function to create and push a tag with idempotency
+publish_tag() {
+    local tag_name="${1}"
+    local target_sha="${2}"
+    local tag_message="${3}"
 
-    if [[ -z "${target_sha}" ]]; then
-        echo "::error::Target SHA not provided for ${build_name} tag creation."
-        exit 1
-    fi
-
-    if [[ -n "${tag_name_override}" ]]; then
-        tag_name="${tag_name_override}"
-    else
-        tag_name="v${build_version}"
-    fi
+    echo ""
+    echo "Checking tag: ${tag_name}"
 
     # Check if tag already exists
     if git rev-parse "${tag_name}" >/dev/null 2>&1; then
-        printf '%s\n' "${build_name} tag ${tag_name} already exists. Skipping tag creation."
-        return 0
+        local existing_sha
+        existing_sha=$(git rev-parse "${tag_name}^{}")
+
+        if [[ "${existing_sha}" == "${target_sha}" ]]; then
+            printf '%s\n' "✅ Tag ${tag_name} already exists at correct SHA (${target_sha:0:7}). Skipping."
+            return 0
+        else
+            echo "::error::Tag ${tag_name} exists at different SHA!"
+            echo "::error::  Expected: ${target_sha:0:7}"
+            echo "::error::  Actual:   ${existing_sha:0:7}"
+            echo "::error::This indicates a version conflict. Cannot proceed."
+            return 1
+        fi
     fi
 
-    git config user.email "metamaskbot@users.noreply.github.com"
-    git config user.name "MetaMask Bot"
-    git tag -a "${tag_name}" "${target_sha}" -m "${build_name} version ${build_version}"
+    # Tag doesn't exist, create it
+    echo "Creating tag ${tag_name} at ${target_sha:0:7}..."
+    git tag -a "${tag_name}" "${target_sha}" -m "${tag_message}"
     git push "https://${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}" "${tag_name}"
-    printf '%s\n' "${build_name} tag ${tag_name} created and pushed."
+    printf '%s\n' "✅ Tag ${tag_name} created and pushed successfully"
 }
 
-tag=""
-target_sha="${RELEASE_SHA:-${GITHUB_SHA}}"
-current_commit_msg=$(git show -s --format='%s' "${target_sha}")
+# Create main release tag
+publish_tag "${tag}" "${RELEASE_SHA}" "Release ${VERSION}"
 
-if [[ -n "${RELEASE_TAG}" ]]; then
-    if [[ "${RELEASE_TAG}" == v* ]]; then
-        tag="${RELEASE_TAG}"
+# Create Flask tag if specified
+if [[ -n "${FLASK_TAG}" ]]; then
+    publish_tag "${FLASK_TAG}" "${RELEASE_SHA}" "Flask release ${FLASK_TAG#v}"
+fi
+
+echo ""
+echo "=== Creating GitHub Release ==="
+
+# Check if release already exists (idempotency + SHA verification)
+existing_target=$(gh release view "${tag}" --json targetCommitish --jq .targetCommitish 2>/dev/null || true)
+if [[ -n "${existing_target}" ]]; then
+    if [[ "${existing_target}" == "${RELEASE_SHA}" ]]; then
+        printf '%s\n' "✅ Release ${tag} already exists at correct SHA (${RELEASE_SHA:0:7}). Skipping."
+        exit 0
     else
-        tag="v${RELEASE_TAG}"
-    fi
-elif [[ "${current_commit_msg}" =~ release/([[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+) ]]; then
-    tag="v${BASH_REMATCH[1]}"
-fi
-
-if [[ -z "${tag}" ]]; then
-    printf '%s\n' 'Version not found in commit message or RELEASE_TAG; skipping GitHub Release'
-    exit 0
-fi
-
-if gh release view "${tag}" >/dev/null 2>&1; then
-    printf '%s\n' "Release ${tag} already exists. Skipping GitHub Release creation."
-    exit 0
-fi
-
-flask_version=""
-if [[ -z "${RELEASE_TAG}" ]]; then
-    flask_version="$(print_build_version 'flask')"
-    if [[ -z "${flask_version}" ]]; then
-        echo "::error::Unable to determine Flask build version from ./build-flask-browserify/builds"
+        echo "::error::Release ${tag} exists at different SHA!"
+        echo "::error::  Expected: ${RELEASE_SHA:0:7}"
+        echo "::error::  Actual:   ${existing_target:0:7}"
+        echo "::error::This indicates a version conflict. Cannot proceed."
         exit 1
     fi
 fi
 
-printf '%s\n' 'Creating GitHub Release'
-release_body="$(awk -v version="[${tag##v}]" -f .github/scripts/show-changelog.awk CHANGELOG.md)"
+printf '%s\n' "Creating GitHub Release for ${tag}..."
+
+# Validate artifacts exist (fail fast with clear error)
+for artifact in build-dist-browserify/builds/metamask-chrome-*.zip \
+                build-dist-mv2-browserify/builds/metamask-firefox-*.zip \
+                build-flask-browserify/builds/metamask-flask-chrome-*.zip \
+                build-flask-mv2-browserify/builds/metamask-flask-firefox-*.zip; do
+    # shellcheck disable=SC2086
+    if ! ls $artifact >/dev/null 2>&1; then
+        echo "::error::Required artifact not found: ${artifact}"
+        exit 1
+    fi
+done
+
+release_body="$(awk -v version="[${VERSION}]" -f .github/scripts/show-changelog.awk CHANGELOG.md)"
 gh release create "${tag}" \
     build-dist-browserify/builds/metamask-chrome-*.zip \
     build-dist-mv2-browserify/builds/metamask-firefox-*.zip \
     build-flask-browserify/builds/metamask-flask-chrome-*.zip \
     build-flask-mv2-browserify/builds/metamask-flask-firefox-*.zip \
-    --title "Version ${tag##v}" \
+    --title "Version ${VERSION}" \
     --notes "${release_body}" \
-    --target "${target_sha}"
+    --target "${RELEASE_SHA}"
 
-if [[ -n "${RELEASE_TAG}" ]]; then
-    echo "ℹ️ Explicit release mode detected; skipping Flask tag creation (handled elsewhere)."
-else
-    publish_tag 'Flask' "${flask_version}" "${target_sha}" "${FLASK_TAG:-}"
-fi
+printf '%s\n' "✅ GitHub Release ${tag} created successfully"

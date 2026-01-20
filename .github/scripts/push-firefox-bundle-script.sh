@@ -1,6 +1,25 @@
 #!/usr/bin/env bash
 
 set -e
+set -o pipefail
+
+# Skip-if-dummy check for fork testing
+if [[ "${FIREFOX_BUNDLE_SCRIPT_TOKEN:-}" == dummy-* ]]; then
+    echo "=============================================="
+    echo "⚠️  DUMMY TOKEN detected - skipping Firefox bundle push"
+    echo "=============================================="
+    echo ""
+    echo "In production, this script would:"
+    echo "  1. Clone the MetaMask/firefox-bundle-script repository"
+    echo "  2. Update bundle.sh with production environment variables"
+    echo "  3. Commit and push to the release branch"
+    echo ""
+    echo "RELEASE_TAG: ${RELEASE_TAG:-not set}"
+    echo "RELEASE_SHA: ${RELEASE_SHA:-not set}"
+    echo ""
+    echo "✅ Firefox bundle push SKIPPED (dummy token)"
+    exit 0
+fi
 
 if [[ -z "${FIREFOX_BUNDLE_SCRIPT_TOKEN}" ]]; then
     echo "::error::FIREFOX_BUNDLE_SCRIPT_TOKEN not provided. Set the 'FIREFOX_BUNDLE_SCRIPT_TOKEN' environment variable."
@@ -9,12 +28,20 @@ fi
 
 git config --global user.name "MetaMask Bot"
 git config --global user.email metamaskbot@users.noreply.github.com
-rawVersion=$(git show -s --format='%s' HEAD | grep -Eo 'release/[0-9]+\.[0-9]+\.[0-9]+' | sed 's|release/||')
+
+rawVersion=""
+if [[ -n "${RELEASE_TAG:-}" ]]; then
+    rawVersion="${RELEASE_TAG#v}"
+else
+    target_sha="${RELEASE_SHA:-HEAD}"
+    rawVersion=$(git show -s --format='%s' "${target_sha}" | grep -Eo 'release/[0-9]+\.[0-9]+\.[0-9]+' | sed 's|release/||')
+fi
+
 version="v${rawVersion}"
 
 # Validate that the version was successfully extracted
 if [[ -z "${rawVersion}" ]]; then
-    echo "::error:: Failed to extract version from commit message. Ensure it follows the 'release/x.y.z' format."
+    echo "::error::Failed to extract version. Provide RELEASE_TAG or ensure commit message follows 'release/x.y.z'."
     exit 1
 fi
 
