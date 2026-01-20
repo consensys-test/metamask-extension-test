@@ -90,7 +90,9 @@ jobs:
     steps:
       - run: echo "Release approval granted."
 
-  # Production builds (4 variants) using yarn build prod.
+  # Production builds (4 variants)
+  # TEST ADAPTATION: Using 'dist' instead of 'prod' because prod requires secrets
+  # In production, these would be: yarn build prod / yarn build --build-type flask prod
   build-dist-browserify:
     name: Build prod (Chrome MV3)
     needs:
@@ -100,7 +102,7 @@ jobs:
     uses: ./.github/workflows/run-build.yml
     with:
       build-name: build-dist-browserify
-      build-command: yarn build prod
+      build-command: yarn build dist
       builds-from-run: ${{ github.run_id }}
     secrets: inherit
 
@@ -113,7 +115,7 @@ jobs:
     uses: ./.github/workflows/run-build.yml
     with:
       build-name: build-dist-mv2-browserify
-      build-command: yarn build prod
+      build-command: yarn build dist
       mozilla-lint: true
       enable-mv3: false
       builds-from-run: ${{ github.run_id }}
@@ -128,7 +130,7 @@ jobs:
     uses: ./.github/workflows/run-build.yml
     with:
       build-name: build-flask-browserify
-      build-command: yarn build --build-type flask prod
+      build-command: yarn build --build-type flask dist
       builds-from-run: ${{ github.run_id }}
     secrets: inherit
 
@@ -141,7 +143,7 @@ jobs:
     uses: ./.github/workflows/run-build.yml
     with:
       build-name: build-flask-mv2-browserify
-      build-command: yarn build --build-type flask prod
+      build-command: yarn build --build-type flask dist
       mozilla-lint: true
       enable-mv3: false
       builds-from-run: ${{ github.run_id }}
