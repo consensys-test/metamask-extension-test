@@ -1,0 +1,133 @@
+name: Test Flask Tag Creation
+
+on:
+  workflow_dispatch:
+    inputs:
+      test_version:
+        description: 'Test version (e.g., 99.99.99-flask.0)'
+        required: true
+        default: '99.99.99-flask.0'
+
+jobs:
+  test-flask-tag:
+    name: Test Flask Tag Creation
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Test publish_tag function
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_SHA: ${{ github.sha }}
+        run: |
+          set -e
+
+          # Define the publish_tag function (from release-create-gh-release.sh)
+          function publish_tag() {
+              local build_name="${1}"
+              shift
+              local build_version="${1}"
+              shift
+              local tag_name="v${build_version}"
+
+              # 1. Check if tag already exists via API
+              if gh api "/repos/${GITHUB_REPOSITORY}/git/refs/tags/${tag_name}" >/dev/null 2>&1; then
+                  printf '%s\n' "${build_name} tag ${tag_name} already exists. Skipping tag creation."
+                  return 0
+              fi
+
+              # 2. Prepare tagger metadata
+              local tag_date
+              tag_date=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+              # 3. Create annotated tag object via API using jq for safe JSON construction
+              local tag_payload
+              tag_payload=$(jq -n \
+                  --arg tag "$tag_name" \
+                  --arg message "${build_name} version ${build_version}" \
+                  --arg object "$GITHUB_SHA" \
+                  --arg email "metamaskbot@users.noreply.github.com" \
+                  --arg date "$tag_date" \
+                  '{
+                      tag: $tag,
+                      message: $message,
+                      object: $object,
+                      type: "commit",
+                      tagger: {
+                          name: "MetaMask Bot",
+                          email: $email,
+                          date: $date
+                      }
+                  }')
+
+              local tag_sha
+              tag_sha=$(echo "$tag_payload" | gh api \
+                  --method POST \
+                  "/repos/${GITHUB_REPOSITORY}/git/tags" \
+                  --input - \
+                  --jq '.sha')
+
+              if [[ -z "${tag_sha}" ]]; then
+                  printf 'Error: Failed to create tag object for %s\n' "${tag_name}" >&2
+                  return 1
+              fi
+
+              # 4. Create the ref (this effectively "pushes" the tag)
+              gh api \
+                  --method POST \
+                  "/repos/${GITHUB_REPOSITORY}/git/refs" \
+                  -f ref="refs/tags/${tag_name}" \
+                  -f sha="${tag_sha}"
+
+              printf '%s\n' "${build_name} tag ${tag_name} created successfully via API."
+          }
+
+          echo "Testing Flask tag creation with version: ${{ inputs.test_version }}"
+          publish_tag "Flask" "${{ inputs.test_version }}"
+
+      - name: Verify tag exists
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          tag_name="v${{ inputs.test_version }}"
+          echo "Verifying tag ${tag_name} exists..."
+
+          # Check via API
+          if gh api "/repos/${{ github.repository }}/git/refs/tags/${tag_name}" >/dev/null 2>&1; then
+            echo "Tag ${tag_name} exists via API"
+          else
+            echo "Tag ${tag_name} NOT found via API"
+            exit 1
+          fi
+
+          # Get tag details
+          echo ""
+          echo "Tag details:"
+          gh api "/repos/${{ github.repository }}/git/refs/tags/${tag_name}" | jq '.'
+
+          # Get the tag object to verify it's annotated
+          tag_sha=$(gh api "/repos/${{ github.repository }}/git/refs/tags/${tag_name}" --jq '.object.sha')
+
+          echo ""
+          echo "Tag object SHA: ${tag_sha}"
+
+          # Get tagger info
+          echo ""
+          echo "Tagger info:"
+          gh api "/repos/${{ github.repository }}/git/tags/${tag_sha}" --jq '.tagger' 2>/dev/null || echo "No tagger info"
+
+      - name: Cleanup test tag
+        if: always()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          tag_name="v${{ inputs.test_version }}"
+          echo "Cleaning up test tag ${tag_name}..."
+          gh api --method DELETE "/repos/${{ github.repository }}/git/refs/tags/${tag_name}" 2>/dev/null || echo "Tag already deleted or doesn't exist"
+          echo "Cleanup complete"
