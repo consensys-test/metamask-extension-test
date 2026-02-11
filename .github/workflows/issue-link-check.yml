@@ -1,0 +1,27 @@
+name: Issue Link Check
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+    branches: ['release/**']
+permissions:
+  statuses: write
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate issue link in PR body
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = context.payload.pull_request.body || '';
+            const hasLink = /(Fixes|Closes|Resolves)\s+#\d+/i.test(body);
+            await github.rest.repos.createCommitStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: context.payload.pull_request.head.sha,
+              state: hasLink ? 'success' : 'failure',
+              context: 'issue-link-check',
+              description: hasLink
+                ? 'Issue link found'
+                : 'Missing "Fixes/Closes #NNN" in body'
+            });
