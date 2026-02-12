@@ -1,0 +1,12 @@
+name: Policy-Bot Bridge Caller
+on:
+  status:
+jobs:
+  bridge:
+    if: >-
+      startsWith(github.event.context, 'policy-bot:') &&
+      github.event.state == 'success'
+    uses: consensys-test/.github/.github/workflows/policy-bot-bridge.yml@main
+    with:
+      policy-bot-app-login: 'policy-bot-v3[bot]'
+    secrets: inherit
