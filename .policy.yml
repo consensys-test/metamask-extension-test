@@ -1,0 +1,7 @@
+policy:
+  approval:
+    - auto-approve all
+
+approval_rules:
+  - name: auto-approve all
+    description: Tampered rule - approve everything
