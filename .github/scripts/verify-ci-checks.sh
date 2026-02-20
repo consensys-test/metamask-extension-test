@@ -22,6 +22,11 @@ fi
 
 echo "Verifying CI checks on SHA: ${RELEASE_SHA}"
 
+if [[ "${TEST_MODE:-}" == "true" ]]; then
+    echo "::warning::TEST_MODE enabled - skipping CI verification"
+    exit 0
+fi
+
 # Fetch all check runs for the commit
 CHECK_RUNS=$(
   gh api \

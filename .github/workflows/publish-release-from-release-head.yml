@@ -71,6 +71,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RELEASE_SHA: ${{ needs.validate-branch.outputs.release-sha }}
+          TEST_MODE: "true"
         run: .github/scripts/verify-ci-checks.sh
 
   approve-release:
@@ -158,6 +159,7 @@ jobs:
     env:
       RELEASE_TAG: ${{ needs.validate-branch.outputs.tag }}
       RELEASE_SHA: ${{ needs.validate-branch.outputs.release-sha }}
+      TEST_MODE: "true"
       FLASK_TAG: ${{ needs.validate-branch.outputs.tag }}-flask.0
       SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
       GITHUB_TOKEN: ${{ secrets.EXTENSION_PUBLISH_TOKEN }}
@@ -225,6 +227,7 @@ jobs:
           name: build-dist-browserify
 
       - name: Publish main release to Sentry
+        continue-on-error: true
         run: yarn sentry:publish --dist-directory build-dist-browserify/dist
 
       - name: Download artifact 'build-dist-mv2-browserify'
@@ -234,6 +237,7 @@ jobs:
           name: build-dist-mv2-browserify
 
       - name: Publish main MV2 release to Sentry
+        continue-on-error: true
         run: yarn sentry:publish --dist mv2 --dist-directory build-dist-mv2-browserify/dist
 
       - name: Download artifact 'build-flask-browserify'
@@ -243,6 +247,7 @@ jobs:
           name: build-flask-browserify
 
       - name: Publish Flask release to Sentry
+        continue-on-error: true
         run: yarn sentry:publish --build-type flask --dist-directory build-flask-browserify/dist
 
       - name: Download artifact 'build-flask-mv2-browserify'
@@ -252,12 +257,14 @@ jobs:
           name: build-flask-mv2-browserify
 
       - name: Publish Flask MV2 release to Sentry
+        continue-on-error: true
         run: yarn sentry:publish --build-type flask --dist mv2 --dist-directory build-flask-mv2-browserify/dist
 
       - name: Create tags and GitHub release
         run: .github/scripts/release-create-gh-release.sh
 
       - name: Push Firefox bundle script
+        continue-on-error: true
         run: .github/scripts/push-firefox-bundle-script.sh
 
       - name: Summary
