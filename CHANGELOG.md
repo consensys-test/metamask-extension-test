@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.22]
+
+### Added
+
+- Test release for deterministic release workflow validation (round 2)
+
 ## [13.21.0]
 
 ### Added
