@@ -1,0 +1,1 @@
+test wildcard status check probe
